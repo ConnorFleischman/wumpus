@@ -1,0 +1,24 @@
+-- Determine random seed
+import System.Random (mkStdGen)
+let randomSeed = mkStdGen 42
+ 
+ 
+-- Define initial GameState
+:{
+let initialGameState = GameState
+      { playerState = Player { playerPosition = 1, lastPosition = 8, playerArrowCount = 3, playerHasShot = False },
+        wumpusState = WumpusState { wumpusPosition = 13 },
+        environmentState = EnvironmentState { hazards = [(6, Bats), (9, Pit)] },
+        gen = randomSeed,
+        gameStatus = Ongoing
+      }
+:}
+
+-- Move to cave 5
+let gs1 = setState (playerState initialGameState) (MoveAction MoveLeft) initialGameState
+print gs1
+
+-- Move to cave 6 (bats, random position)
+let gs2 = setState (playerState gs1) (MoveAction MoveLeft) gs1
+print gs2
+ 
